@@ -1,45 +1,34 @@
 - name: Create a directory if it does not exist
   file:
-    path: /tmp/debs/peervpn/usr/local/bin
+    path: {{ item }}
     state: directory
     mode: '0755'
+  with_items: {{ dirs_to_create }}
 
-- name: Create 2 a directory if it does not exist
-  file:
-    path: /tmp/debs/peervpn/DEBIAN
-    state: directory
-    mode: '0755'
-
-- name: Copy peervpn
+- name: Copy {{ peervpn_base_name }}
   copy:
-    src: /tmp/peervpn/peervpn
-    dest: /tmp/debs/peervpn/usr/local/bin/peervpn
+    src: {{ peervpn_base_dir }}/{{ peervpn_package_dir }}
+    dest: {{ peervpn_debs_dir }}/{{ peervpn_package_dir }}/peervpn_bin_path/{{ peervpn_base_name }}
     remote_src: yes
     mode: '0755'
 
 - name: Copy control
   template:
     src: control.j2
-    dest: /tmp/debs/peervpn/DEBIAN/control
-    owner: dbogatyr
-    group: dbogatyr
+    dest: {{ peervpn_debs_dir }}/{{ peervpn }}/{{ peervpn_deb_config_dir }}/control
+    owner: {{ owner_on_files }}
+    group: {{ owner_on_files }}
     mode: '0755'
 
-- name: build deb
-  command: dpkg-deb --build /tmp/debs/peervpn
+- name: Build deb
+  command: dpkg-deb --build {{ peervpn_debs_dir }}/{{ peervpn_base_name }}
 
-- name: create apache deb dir
-  file:
-    path: /var/www/html/debs
-    state: directory
-    mode: '0755'
-
-- name: copy deb
+- name: Copy deb
   copy: 
-    src: /tmp/debs/peervpn.deb
-    dest: /var/www/html/debs/
+    src: {{ peervpn_debs_dir }}/peervpn.deb
+    dest: {{ apache_deb_dir }}
     remote_src: yes
     mode: '0755'
 
-- name: exec package
-  shell: cd /var/www/html/debs ; dpkg-scanpackages . | gzip -c9  > /var/www/html/debs/Packages.gz
+- name: Scan package
+  shell: cd  {{ apache_deb_dir }}; dpkg-scanpackages . | gzip -c9  > {{ apache_deb_dir }}Packages.gz

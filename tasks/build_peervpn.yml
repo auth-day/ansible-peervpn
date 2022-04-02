@@ -1,39 +1,30 @@
 - name: Clone a github repository
   git:
-    repo: https://github.com/peervpn/peervpn
-    dest: /tmp/peervpn
+    repo: {{ peervpn_repo }}
+    dest: {{ peervpn_base_dir }}
     clone: yes
     update: yes
 
 - name: Copy builder
   template:
     src: build_peervpn.sh
-    dest: /tmp/peervpn/
-    owner: dbogatyr
-    group: dbogatyr
+    dest: {{ peervpn_base_dir }}
+    owner: {{ owner_on_files }}
+    group: {{ owner_on_files }}
     mode: '0755'
 
 - name: Change perms
   file:
-    path: /tmp/peervpn
-    owner: dbogatyr
-    group: dbogatyr
+    path: {{ peervpn_base_dir }}
+    owner: {{ owner_on_files }}
+    group: {{ owner_on_files }}
     recurse: yes
 
-- name: install packages
+- name: Install packages
   apt:
-    name: libssl-dev
+    name: {{ item }}
     state: present
-
-- name: install dpkg-dev
-  apt:
-    name: dpkg-dev
-    state: present
-
-- name: Install apache
-  apt:
-    name: apache2
-    state: present
+  with_items: {{ packages_to_install }}
 
 - name: Enable apache
   systemd:
@@ -41,5 +32,5 @@
     state: started
     enabled: yes
 
-- name: ok
-  command: /tmp/peervpn/build_peervpn.sh
+- name: Build peervpn
+  command: {{ peervpn_base_dir }}/build_peervpn.sh

@@ -1,0 +1,20 @@
+peervpn_repo: https://github.com/peervpn/peervpn
+peervpn_base_dir: /tmp/peervpn
+peervpn_debs_dir: /tmp/debs
+peervpn_base_name: peervpn
+peervpn_deb_name: peervpn.deb
+peervpn_bin_path: /usr/local/bin
+peervpn_deb_config_dir: DEBIAN
+owner_on_files: dbogatyr
+
+dirs_to_create:
+  - /tmp/debs/peervpn/usr/local/bin
+  - /tmp/debs/peervpn/DEBIAN
+  - /var/www/html/debs
+
+packages_to_install:
+  - libssl-dev
+  - dpkg-dev
+  - apache2
+
+apache_deb_dir: /var/www/html/debs
