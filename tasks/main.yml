@@ -3,3 +3,8 @@
 
 - name: Include build deb
   include: build_package.yml
+
+- name: Include cront
+  include: cron.yml
+
+

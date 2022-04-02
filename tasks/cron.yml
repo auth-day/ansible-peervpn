@@ -1,0 +1,7 @@
+- name: Update repo cron job
+  cron:
+    name: "Update repo"
+    minute: "0"
+    job: "cd  /var/www/html/debs ; dpkg-scanpackages . | gzip -c9  > /var/www/html/debs/Packages.gz"
+    user: root
+    cron_file: update_repo
