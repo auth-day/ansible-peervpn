@@ -18,7 +18,7 @@ vi peervpn.yml
 ```
 vi hosts
 [all]
-localhost (url apache)
+localhost (hostname где поднят репозиторий)
 ```
 
 Если `ansible` не установлен, надо установить:
