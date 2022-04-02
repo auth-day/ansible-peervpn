@@ -1,0 +1,45 @@
+- name: Clone a github repository
+  git:
+    repo: https://github.com/peervpn/peervpn
+    dest: /tmp/peervpn
+    clone: yes
+    update: yes
+
+- name: Copy builder
+  template:
+    src: build_peervpn.sh
+    dest: /tmp/peervpn/
+    owner: dbogatyr
+    group: dbogatyr
+    mode: '0755'
+
+- name: Change perms
+  file:
+    path: /tmp/peervpn
+    owner: dbogatyr
+    group: dbogatyr
+    recurse: yes
+
+- name: install packages
+  apt:
+    name: libssl-dev
+    state: present
+
+- name: install dpkg-dev
+  apt:
+    name: dpkg-dev
+    state: present
+
+- name: Install apache
+  apt:
+    name: apache2
+    state: present
+
+- name: Enable apache
+  systemd:
+    name: apache2
+    state: started
+    enabled: yes
+
+- name: ok
+  command: /tmp/peervpn/build_peervpn.sh
