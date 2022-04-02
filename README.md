@@ -37,6 +37,7 @@ ansible-playbook peervpn.yml -i hosts
 ```
 echo 'deb [trusted=yes] http://localhost/debs/' > /etc/apt/sources.list.d/myubunturepo.list
 ```
+Вместо `localhost` если нужно подставить имя актуального сервера.
 
 Обновляем бд доступных пакетов
 ```
