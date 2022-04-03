@@ -39,7 +39,7 @@
     mode: '0577'
 
 - name: Extract libressl-2.5.1.tar.gz into "{{ peervpn_base_dir }}"
-  ansible.builtin.unarchive:
+  unarchive:
     src: foo.tgz
     dest: "{{ peervpn_base_dir }}"
 

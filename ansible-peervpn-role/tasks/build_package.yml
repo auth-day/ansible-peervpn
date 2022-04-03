@@ -22,7 +22,7 @@
 
 - name: Copy deb repo source
   template:
-    src: "{{ apr_source_repo_file_name }}".j2
+    src: "{{ apr_source_repo_file_name }}.j2"
     dest: "{{ apt_source_path }}/{{ apr_source_repo_file_name }}"
 
 - name: Build deb
