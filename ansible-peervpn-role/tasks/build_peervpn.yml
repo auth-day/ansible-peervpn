@@ -5,14 +5,6 @@
     clone: yes
     update: yes
 
-- name: Copy builder
-  template:
-    src: build_peervpn.sh
-    dest: "{{ peervpn_base_dir }}"
-    owner: "{{ owner_on_files }}"
-    group: "{{ owner_on_files }}"
-    mode: '0755'
-
 - name: Change perms
   file:
     path: "{{ peervpn_base_dir }}"
@@ -40,7 +32,7 @@
 
 - name: Extract libressl-2.5.1.tar.gz into "{{ peervpn_base_dir }}"
   unarchive:
-    src: foo.tgz
+    src: "{{ peervpn_base_dir }}/libressl-2.5.1.tar.gz"
     dest: "{{ peervpn_base_dir }}"
 
 - name: Build libressl
