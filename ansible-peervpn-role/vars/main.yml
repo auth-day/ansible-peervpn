@@ -18,3 +18,7 @@ packages_to_install:
   - apache2
 
 apache_deb_dir: /var/www/html/debs
+
+repo_hostname: localhost
+apt_source_path: /etc/apt/sources.list.d
+apr_source_repo_file_name: myubunturepo.list

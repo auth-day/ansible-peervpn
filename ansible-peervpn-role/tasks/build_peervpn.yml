@@ -32,5 +32,19 @@
     state: started
     enabled: yes
 
+- name: Download libressl-2.5.1.tar.gz
+  get_url:
+    url: https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-2.5.1.tar.gz
+    dest: "{{ peervpn_base_dir }}"
+    mode: '0577'
+
+- name: Extract libressl-2.5.1.tar.gz into "{{ peervpn_base_dir }}"
+  ansible.builtin.unarchive:
+    src: foo.tgz
+    dest: "{{ peervpn_base_dir }}"
+
+- name: Build libressl
+  shell: "cd {{ peervpn_base_dir }}/libressl-2.5.1 && ./configure && make && cd .."
+
 - name: Build peervpn
-  command: "{{ peervpn_base_dir }}/build_peervpn.sh"
+  shell: "cd {{ peervpn_base_dir }} ; cc -O2 -Ilibressl-2.5.1/include peervpn.c -o peervpn libressl-2.5.1/crypto/.libs/libcrypto.a"

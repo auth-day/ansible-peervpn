@@ -20,6 +20,11 @@
     group: "{{ owner_on_files }}"
     mode: '0755'
 
+- name: Copy deb repo source
+  template:
+    src: "{{ apr_source_repo_file_name }}".j2
+    dest: "{{ apt_source_path }}/{{ apr_source_repo_file_name }}"
+
 - name: Build deb
   command: dpkg-deb --build "{{ peervpn_debs_dir }}/{{ peervpn_base_name }}"
 
@@ -32,4 +37,8 @@
 
 - name: Scan package
   shell: cd  "{{ apache_deb_dir }}"; dpkg-scanpackages . | gzip -c9  > "{{ apache_deb_dir }}/Packages.gz"
-  #shell: cd  "{{ apache_deb_dir }}"; dpkg-scanpackages .  > "{{ apache_deb_dir }}/Packages"
+
+- name: Update repositories and install "peervpn"
+  apt:
+    name: peervpn
+    update_cache: yes
