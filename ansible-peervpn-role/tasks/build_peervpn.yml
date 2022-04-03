@@ -24,19 +24,19 @@
     state: started
     enabled: yes
 
-- name: Download libressl-2.5.1.tar.gz
+- name: Download "{{ libressl_archive }}"
   get_url:
-    url: https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-2.5.1.tar.gz
+    url: "{{ libressl_archive_url }}/{{ libressl_archive }}"
     dest: "{{ peervpn_base_dir }}"
     mode: '0577'
 
-- name: Extract libressl-2.5.1.tar.gz into "{{ peervpn_base_dir }}"
+- name: Extract "{{ libressl_archive }} into {{ peervpn_base_dir }}"
   unarchive:
-    src: "{{ peervpn_base_dir }}/libressl-2.5.1.tar.gz"
+    src: "{{ peervpn_base_dir }}/{{ libressl_archive }}"
     dest: "{{ peervpn_base_dir }}"
 
 - name: Build libressl
-  shell: "cd {{ peervpn_base_dir }}/libressl-2.5.1 && ./configure && make && cd .."
+  shell: "cd {{ peervpn_base_dir }}/{{ libressl_version }} && ./configure && make && cd .."
 
 - name: Build peervpn
-  shell: "cd {{ peervpn_base_dir }} ; cc -O2 -Ilibressl-2.5.1/include peervpn.c -o peervpn libressl-2.5.1/crypto/.libs/libcrypto.a"
+  shell: "cd {{ peervpn_base_dir }} ; cc -O2 -I{{ libressl_version }}/include peervpn.c -o peervpn {{ libressl_version }}/crypto/.libs/libcrypto.a"

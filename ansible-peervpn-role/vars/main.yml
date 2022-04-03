@@ -22,3 +22,8 @@ apache_deb_dir: /var/www/html/debs
 repo_hostname: localhost
 apt_source_path: /etc/apt/sources.list.d
 apr_source_repo_file_name: myubunturepo.list
+
+libressl_version: libressl-2.5.1
+libressl_archive: libressl-2.5.1.tar.gz
+libressl_archive_url: https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/
+

@@ -38,7 +38,7 @@
 - name: Scan package
   shell: cd  "{{ apache_deb_dir }}"; dpkg-scanpackages . | gzip -c9  > "{{ apache_deb_dir }}/Packages.gz"
 
-- name: Update repositories and install "peervpn"
+- name: "Update repositories and install {{ peervpn_base_name }}"
   apt:
-    name: peervpn
+    name: "{{ peervpn_base_name }}"
     update_cache: yes
